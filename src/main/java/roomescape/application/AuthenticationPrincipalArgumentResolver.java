@@ -8,23 +8,25 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import roomescape.infrastructure.AuthMember;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
-import roomescape.member.MemberDao;
+import roomescape.member.MemberService;
 
 @Component
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberDao memberDao;
+    private final MemberService memberService;
 
-    public AuthenticationPrincipalArgumentResolver(JwtTokenProvider jwtTokenProvider, MemberDao memberDao) {
+    public AuthenticationPrincipalArgumentResolver(JwtTokenProvider jwtTokenProvider, MemberService memberService) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.memberDao = memberDao;
+        this.memberService = memberService;
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(Member.class);
+        return parameter.hasParameterAnnotation(AuthMember.class)
+                && Member.class.isAssignableFrom(parameter.getParameterType());
     }
 
     @Override
@@ -45,8 +47,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         if (!jwtTokenProvider.validateToken(token)) {
             throw new RuntimeException("인증되지 않은 사용자입니다.");
         }
-        String email = jwtTokenProvider.getPayload(token);
 
-        return memberDao.findByEmail(email);
+        return memberService.findByToken(token);
     }
 }

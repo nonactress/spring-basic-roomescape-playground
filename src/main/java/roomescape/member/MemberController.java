@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import roomescape.infrastructure.AuthMember;
 
 import java.net.URI;
 
@@ -39,17 +40,14 @@ public class MemberController {
         return ResponseEntity.ok().body(tokenResponse);
     }
 
-    @PostMapping("/login/check")
-    public ResponseEntity<TokenResponse> check(
-            @RequestBody MemberRequest memberRequest
+    @GetMapping("/login/check")
+    public ResponseEntity<MemberResponse> check(
+            @AuthMember Member member
     ) {
-
-        String adminName = memberRequest.getName();
-        TokenResponse tokenResponse = new TokenResponse(adminName);
         return ResponseEntity.ok()
                 .header("Connection", "keep-alive")
                 .header("Keep-Alive", "timeout=60")
-                .body(tokenResponse);
+                .body(new MemberResponse(null,member.getName(),null));
     }
 
 

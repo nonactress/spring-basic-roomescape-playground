@@ -18,6 +18,16 @@ public class MemberService {
         return new MemberResponse(member.getId(), member.getName(), member.getEmail());
     }
 
+    public Member findByToken(String token) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new RuntimeException("유효하지 않은 토큰입니다.");
+        }
+
+        String email = jwtTokenProvider.getPayload(token);
+
+        return memberDao.findByEmail(email);
+    }
+
     public TokenResponse login(MemberRequest memberRequest) {
         Member member = memberDao.findByEmailAndPassword(
                 memberRequest.getEmail(),

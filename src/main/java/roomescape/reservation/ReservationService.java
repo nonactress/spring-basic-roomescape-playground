@@ -1,30 +1,31 @@
 package roomescape.reservation;
 
-import jdk.jpackage.internal.WinExeBundler;
 import org.springframework.stereotype.Service;
+import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberDao;
+import roomescape.member.MemberService;
 
 import java.util.List;
 
 @Service
 public class ReservationService {
-    private ReservationDao reservationDao;
-    private MemberDao memberDao;
+    private final ReservationDao reservationDao;
+    private final MemberService memberService;
 
-    public ReservationService(ReservationDao reservationDao, MemberDao memberDao) {
+    public ReservationService(ReservationDao reservationDao, MemberService memberService) {
         this.reservationDao = reservationDao;
-        this.memberDao = memberDao;
+        this.memberService = memberService;
     }
 
-    public ReservationResponse save(ReservationRequest reservationRequest, Member member) {
-        String reservationName = reservationRequest.getName();
+    public ReservationResponse save(ReservationRequest reservationRequest,Member member) {
 
-
-        if (reservationName != null && !reservationName.isBlank()) {
-
-        } else {
-            reservationName = loginMember.getName();
+        String reservationName;
+        if(reservationRequest.getName()==null){
+            reservationName = member.getName();
+        }
+        else{
+            reservationName = reservationRequest.getName();
         }
 
         Reservation reservation = reservationDao.save(reservationRequest, reservationName);
