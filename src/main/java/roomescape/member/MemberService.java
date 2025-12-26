@@ -8,7 +8,7 @@ public class MemberService {
     private MemberDao memberDao;
     private JwtTokenProvider jwtTokenProvider;
 
-    public MemberService(MemberDao memberDao,  JwtTokenProvider jwtTokenProvider) {
+    public MemberService(MemberDao memberDao, JwtTokenProvider jwtTokenProvider) {
         this.memberDao = memberDao;
         this.jwtTokenProvider = jwtTokenProvider;
     }

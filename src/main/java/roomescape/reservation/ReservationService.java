@@ -1,9 +1,7 @@
 package roomescape.reservation;
 
 import org.springframework.stereotype.Service;
-import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
-import roomescape.member.MemberDao;
 import roomescape.member.MemberService;
 
 import java.util.List;
@@ -18,13 +16,12 @@ public class ReservationService {
         this.memberService = memberService;
     }
 
-    public ReservationResponse save(ReservationRequest reservationRequest,Member member) {
+    public ReservationResponse save(ReservationRequest reservationRequest, Member member) {
 
         String reservationName;
-        if(reservationRequest.getName()==null){
+        if (reservationRequest.getName() == null) {
             reservationName = member.getName();
-        }
-        else{
+        } else {
             reservationName = reservationRequest.getName();
         }
 
