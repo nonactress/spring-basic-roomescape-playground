@@ -20,22 +20,21 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(
+    public ResponseEntity<Void> login(
             @RequestBody MemberRequest memberRequest,
             HttpServletResponse response) {
 
-        TokenResponse tokenResponse = memberService.login(memberRequest);
-        String tokenValue = tokenResponse.accessToken();
+        String tokenValue = memberService.login(memberRequest);
 
         Cookie cookie = new Cookie("token", tokenValue);
-
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
-
         response.addCookie(cookie);
 
-        return ResponseEntity.ok().body(tokenResponse);
+        return ResponseEntity.ok()
+                .header("Keep-Alive", "timeout=60")
+                .build();
     }
 
     @GetMapping("/login/check")

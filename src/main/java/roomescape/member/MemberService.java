@@ -28,7 +28,7 @@ public class MemberService {
         return memberDao.findByEmail(email);
     }
 
-    public TokenResponse login(MemberRequest memberRequest) {
+    public String login(MemberRequest memberRequest) {
         Member member = memberDao.findByEmailAndPassword(
                 memberRequest.getEmail(),
                 memberRequest.getPassword()
@@ -40,6 +40,6 @@ public class MemberService {
 
         String accessToken = jwtTokenProvider.createToken(member.getEmail());
 
-        return new TokenResponse(accessToken);
+        return accessToken;
     }
 }
