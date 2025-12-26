@@ -34,7 +34,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         Member member = memberDao.findByEmail(email);
 
         if (member == null || !"ADMIN".equals(member.getRole())) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(401);
             return false;
         }
 
