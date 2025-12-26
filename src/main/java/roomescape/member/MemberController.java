@@ -1,7 +1,6 @@
 package roomescape.member;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,6 @@ public class MemberController {
 
         Cookie cookie = new Cookie("token", tokenValue);
 
-
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
@@ -49,7 +47,6 @@ public class MemberController {
                 .header("Keep-Alive", "timeout=60")
                 .body(new MemberResponse(null,member.getName(),null));
     }
-
 
     @PostMapping("/members")
     public ResponseEntity createMember(@RequestBody MemberRequest memberRequest) {

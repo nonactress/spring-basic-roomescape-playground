@@ -9,11 +9,8 @@ import java.util.List;
 @Service
 public class ReservationService {
     private final ReservationDao reservationDao;
-    private final MemberService memberService;
-
-    public ReservationService(ReservationDao reservationDao, MemberService memberService) {
+    public ReservationService(ReservationDao reservationDao) {
         this.reservationDao = reservationDao;
-        this.memberService = memberService;
     }
 
     public ReservationResponse save(ReservationRequest reservationRequest, Member member) {
@@ -42,7 +39,8 @@ public class ReservationService {
 
     public List<ReservationResponse> findAll() {
         return reservationDao.findAll().stream()
-                .map(it -> new ReservationResponse(it.getId(), it.getName(), it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
+                .map(it -> new ReservationResponse(it.getId(), it.getName(),
+                                    it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
                 .toList();
     }
 }
