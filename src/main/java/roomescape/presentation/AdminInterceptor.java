@@ -1,4 +1,4 @@
-package roomescape.application;
+package roomescape.presentation;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

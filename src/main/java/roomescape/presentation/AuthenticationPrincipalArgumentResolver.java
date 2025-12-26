@@ -1,4 +1,4 @@
-package roomescape.application;
+package roomescape.presentation;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import roomescape.infrastructure.AuthMember;
+import roomescape.auth.AuthMember;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberService;
