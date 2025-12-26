@@ -39,6 +39,20 @@ public class MemberController {
         return ResponseEntity.ok().body(tokenResponse);
     }
 
+    @PostMapping("/login/check")
+    public ResponseEntity<TokenResponse> check(
+            @RequestBody MemberRequest memberRequest
+    ) {
+
+        String adminName = memberRequest.getName();
+        TokenResponse tokenResponse = new TokenResponse(adminName);
+        return ResponseEntity.ok()
+                .header("Connection", "keep-alive")
+                .header("Keep-Alive", "timeout=60")
+                .body(tokenResponse);
+    }
+
+
     @PostMapping("/members")
     public ResponseEntity createMember(@RequestBody MemberRequest memberRequest) {
         MemberResponse member = memberService.createMember(memberRequest);
