@@ -10,6 +10,11 @@ import java.util.Optional;
 public class ThemeRepository {
     private EntityManager em;
 
+    public long count() {
+        return em.createQuery("SELECT COUNT(t) FROM Theme t", Long.class)
+                .getSingleResult();
+    }
+
     public ThemeRepository(EntityManager em) {
         this.em = em;
     }

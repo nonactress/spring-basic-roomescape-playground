@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
+import roomescape.reservation.dto.MyReservationResponse;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.dto.ReservationResponse;
 import roomescape.theme.Theme;
@@ -28,51 +29,37 @@ public class ReservationService {
         this.themeRepository = themeRepository;
     }
 
-    @Transactional
-    public ReservationResponse save(ReservationRequest request, Member member) {
-        String name = resolveName(request, member);
+    public ReservationResponse saveByMember(ReservationRequest request, Member member) {
+        Theme theme = findTheme(request.getTheme());
+        Time time = findTime(request.getTime());
 
-        // 2. 실제 객체 조회 (핵심!): ID 숫자가 아닌 '영속 상태의 객체'를 찾아옵니다.
-        Theme theme = themeRepository.findById(request.getTheme())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 테마입니다."));
-        Time time = timeRepository.findById(request.getTime())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시간입니다."));
-
-        // 3. 찾아온 객체들을 연결하여 생성 (Transient 에러 해결)
-        Reservation reservation = new Reservation(name, request.getDate(), time, theme);
-
-        // 4. 저장 (JPA가 @JoinColumn을 통해 자동으로 FK를 채워줍니다)
+        Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
         reservationRepository.save(reservation);
-
         return ReservationResponse.from(reservation);
     }
 
-    private String resolveName(ReservationRequest request, Member member) {
-        if (request.getName() != null && !request.getName().isBlank()) {
-            return request.getName();
-        }
-        return member.getName();
+    public ReservationResponse saveByAdmin(ReservationRequest request) {
+        Theme theme = findTheme(request.getTheme());
+        Time time = findTime(request.getTime());
+
+        Reservation reservation = new Reservation(request.getName(), request.getDate(), time, theme);
+        reservationRepository.save(reservation);
+        return ReservationResponse.from(reservation);
     }
 
+    @Transactional
+    public List<MyReservationResponse> findByMember(Member member) {
+        return reservationRepository.findByMemberId(member.getId()).stream()
+                .map(MyReservationResponse::from)
+                .toList();
+    }
 
-    public Reservation save(ReservationRequest request) {
-        Time time = timeRepository.findById(request.getTime())
-                .orElseThrow(() -> new IllegalArgumentException("해당 시간이 존재하지 않습니다. ID: " + request.getTime()));
+    private Theme findTheme(Long id) {
+        return themeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("테마 없음"));
+    }
 
-        Theme theme = themeRepository.findById(request.getTheme())
-                .orElseThrow(() -> new IllegalArgumentException("해당 테마가 존재하지 않습니다. ID: " + request.getTheme()));
-
-
-
-        Reservation reservation = new Reservation(
-                request.getName(),
-                request.getDate(),
-                time,
-                theme
-        );
-
-        reservationRepository.save(reservation);
-        return reservation;
+    private Time findTime(Long id) {
+        return timeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("시간 없음"));
     }
 
 

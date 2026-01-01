@@ -1,14 +1,12 @@
 package roomescape.reservation;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.theme.Theme;
 import roomescape.time.Time;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class ReservationRepository {
@@ -17,6 +15,11 @@ public class ReservationRepository {
 
     public ReservationRepository(EntityManager em) {
         this.em = em;
+    }
+
+    public long count() {
+        return em.createQuery("SELECT COUNT(t) FROM Reservation t", Long.class)
+                .getSingleResult();
     }
 
 
@@ -42,14 +45,10 @@ public class ReservationRepository {
         em.persist(reservation);
     }
 
-    public Optional<Reservation> findById(Long id) {
-        return Optional.ofNullable(em.find(Reservation.class, id));
-    }
-
     public void deleteById(Long id) {
         Reservation reservation = em.find(Reservation.class, id);
         if (reservation != null) {
-            reservation.setDeleted(true); // 실제 삭제 대신 상태값 변경
+            reservation.setDeleted(true);
         }
     }
 
@@ -59,6 +58,20 @@ public class ReservationRepository {
                         Reservation.class)
                 .setParameter("date", date)
                 .setParameter("themeId", themeId)
+                .getResultList();
+    }
+
+    public List<Reservation> findByMemberId(Long memberId) {
+
+        String jpql = """
+            SELECT r FROM Reservation r 
+            JOIN FETCH r.time 
+            JOIN FETCH r.theme 
+            WHERE r.member.id = :memberId AND r.deleted = false
+        """;
+
+        return em.createQuery(jpql, Reservation.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
 }

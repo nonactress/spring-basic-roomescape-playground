@@ -42,6 +42,8 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("관리자 계정이 생성되었습니다.");
         }
 
+        // 2. 테마 데이터 생성
+        if (themeRepository.count() == 0) {
             Theme theme1 = new Theme("테마1", "테마1입니다.");
             Theme theme2 = new Theme("테마2", "테마2입니다.");
             Theme theme3 = new Theme("테마3", "테마3입니다.");
@@ -50,8 +52,10 @@ public class DataInitializer implements CommandLineRunner {
             themeRepository.save(theme2);
             themeRepository.save(theme3);
             System.out.println("테마 데이터가 생성되었습니다.");
+        }
 
-
+        // 3. 시간 데이터 생성
+        if (timeRepository.count() == 0) {
             Time time1 = new Time("10:00");
             Time time2 = new Time("12:00");
             Time time3 = new Time("14:00");
@@ -66,24 +70,33 @@ public class DataInitializer implements CommandLineRunner {
             timeRepository.save(time5);
             timeRepository.save(time6);
             System.out.println("시간 데이터가 생성되었습니다.");
+        }
 
-            Time time1T = timeRepository.findById(1L).orElseThrow();
-            Time time2T = timeRepository.findById(2L).orElseThrow();
-            Time time3T = timeRepository.findById(3L).orElseThrow();
+        if (reservationRepository.count() == 0) {
+            Member admin = memberRepository.findByEmail("admin")
+                    .orElseThrow(() -> new RuntimeException("Admin not found"));
 
-            Theme theme1T = themeRepository.findById(1L).orElseThrow();
-            Theme theme2T = themeRepository.findById(2L).orElseThrow();
-            Theme theme3T = themeRepository.findById(3L).orElseThrow();
+            Time time1 = timeRepository.findById(1L).orElseThrow();
+            Time time2 = timeRepository.findById(2L).orElseThrow();
+            Time time3 = timeRepository.findById(3L).orElseThrow();
 
-            Reservation reservation1 = new Reservation("어드민", "2024-03-01", time1T, theme1T);
-            Reservation reservation2 = new Reservation("어드민", "2024-03-01", time2T, theme2T);
-            Reservation reservation3 = new Reservation("어드민", "2024-03-01", time3T, theme3T);
+            Theme theme1 = themeRepository.findById(1L).orElseThrow();
+            Theme theme2 = themeRepository.findById(2L).orElseThrow();
+            Theme theme3 = themeRepository.findById(3L).orElseThrow();
+
+            Reservation reservation1 = new Reservation("", "2024-03-01", time1, theme1, admin);
+            Reservation reservation2 = new Reservation("", "2024-03-01", time2, theme2, admin);
+            Reservation reservation3 = new Reservation("", "2024-03-01", time3, theme3, admin);
 
             reservationRepository.save(reservation1);
             reservationRepository.save(reservation2);
             reservationRepository.save(reservation3);
-            System.out.println("예약 데이터가 생성되었습니다.");
 
+            Reservation reservation4 = new Reservation("브라운", "2024-03-01", time1, theme2);
+
+            reservationRepository.save(reservation4);
+            System.out.println("예약 데이터가 생성되었습니다.");
+        }
 
         System.out.println("초기 데이터 로딩이 완료되었습니다.");
     }

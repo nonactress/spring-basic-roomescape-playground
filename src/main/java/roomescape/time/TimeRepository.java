@@ -17,6 +17,10 @@ public class TimeRepository {
         this.em = em;
     }
 
+    public long count() {
+        return em.createQuery("SELECT COUNT(t) FROM Time t", Long.class)
+                .getSingleResult();
+    }
 
     public List<Time> findAll() {
         return em.createQuery("SELECT t FROM Time t WHERE t.deleted = false", Time.class)
