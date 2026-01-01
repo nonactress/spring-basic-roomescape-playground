@@ -1,14 +1,13 @@
 package roomescape.theme;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ThemeRepository {
-    @PersistenceContext
     private EntityManager em;
 
     public ThemeRepository(EntityManager em) {
@@ -16,7 +15,7 @@ public class ThemeRepository {
     }
 
     public List<Theme> findAll() {
-        return em.createNamedQuery("SELECT t FROM Theme t WHERE t.deleted = false", Theme.class).getResultList();
+        return em.createQuery("SELECT t FROM Theme t WHERE t.deleted = false", Theme.class).getResultList();
     }
 
     public Theme save (Theme theme) {
@@ -25,7 +24,15 @@ public class ThemeRepository {
     }
 
     public void deleteById(Long id) {
-       em.remove(em.find(Theme.class, id));
+        Theme theme = em.find(Theme.class, id);
+        if (theme != null) {
+            theme.setDeleted(true);
+        }
+    }
+
+    public Optional<Theme> findById(Long id) {
+        Theme theme = em.find(Theme.class, id);
+        return Optional.of(theme);
     }
 }
 

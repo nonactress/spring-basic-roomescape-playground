@@ -1,20 +1,30 @@
 package roomescape.member;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import roomescape.infrastructure.JwtTokenProvider;
 
 @Service
+@Transactional(readOnly = true)
 public class MemberService {
-    private MemberDao memberDao;
-    private JwtTokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberService(MemberDao memberDao, JwtTokenProvider jwtTokenProvider) {
-        this.memberDao = memberDao;
+    public MemberService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider) {
+        this.memberRepository = memberRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @Transactional
     public MemberResponse createMember(MemberRequest memberRequest) {
-        Member member = memberDao.save(new Member(memberRequest.getName(), memberRequest.getEmail(), memberRequest.getPassword(), "USER"));
+        Member member = memberRepository.save(
+                new Member(
+                        memberRequest.getName(),
+                        memberRequest.getEmail(),
+                        memberRequest.getPassword(),
+                        "USER"
+                )
+        );
         return new MemberResponse(member.getId(), member.getName(), member.getEmail());
     }
 
@@ -25,21 +35,17 @@ public class MemberService {
 
         String email = jwtTokenProvider.getPayload(token);
 
-        return memberDao.findByEmail(email);
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
     }
 
     public String login(MemberRequest memberRequest) {
-        Member member = memberDao.findByEmailAndPassword(
-                memberRequest.getEmail(),
-                memberRequest.getPassword()
-        );
+        Member member = memberRepository.findByEmailAndPassword(
+                        memberRequest.getEmail(),
+                        memberRequest.getPassword()
+                )
+                .orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호가 일치하지 않습니다."));
 
-        if (member == null) {
-            throw new RuntimeException("이메일 또는 비밀번호가 일치하지 않습니다.");
-        }
-
-        String accessToken = jwtTokenProvider.createToken(member.getEmail());
-
-        return accessToken;
+        return jwtTokenProvider.createToken(member.getEmail());
     }
 }

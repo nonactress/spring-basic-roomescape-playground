@@ -1,18 +1,17 @@
 package roomescape.time;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Time {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name = "time_value")
     private String value;
 
-    private boolean deleted = false; // Soft Delete를 위한 필드
+    private boolean deleted = false;
 
     public Time(Long id, String value) {
         this.id = id;
