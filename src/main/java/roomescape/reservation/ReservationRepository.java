@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public class ReservationRepository {
 
-    @PersistenceContext
     private final EntityManager em;
 
     public ReservationRepository(EntityManager em) {
@@ -22,14 +21,7 @@ public class ReservationRepository {
 
 
     public List<Reservation> findAll() {
-        String jpql = """
-        SELECT r FROM Reservation r
-        JOIN FETCH r.time t
-        JOIN FETCH r.theme th
-        WHERE r.deleted = false 
-          AND t.deleted = false 
-          AND th.deleted = false
-        """;
+        String jpql = "SELECT r FROM Reservation r JOIN FETCH r.time JOIN FETCH r.theme WHERE r.deleted = false";
 
         return em.createQuery(jpql, Reservation.class)
                 .getResultList();
@@ -54,7 +46,6 @@ public class ReservationRepository {
         return Optional.ofNullable(em.find(Reservation.class, id));
     }
 
-    // [소프트 딜리트 적용]
     public void deleteById(Long id) {
         Reservation reservation = em.find(Reservation.class, id);
         if (reservation != null) {
