@@ -9,6 +9,7 @@ import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.dto.ReservationResponse;
 import roomescape.reservation.waiting.Waiting;
 import roomescape.reservation.waiting.WaitingRepository;
+import roomescape.reservation.waiting.WaitingWithRank;
 import roomescape.theme.Theme;
 import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
@@ -76,15 +77,23 @@ public class ReservationService {
                         .toList()
         );
 
-        List<Waiting> waitings = waitingRepository.findByMemberId(member.getId());
+        List<WaitingWithRank> waitingsWithRank = waitingRepository.findWaitingsWithRankByMemberId(member.getId());
 
-        for (Waiting w : waitings) {
-            Long rank = waitingRepository.findRank(w);
-            responses.add(MyReservationResponse.from(w, rank));
+        for (WaitingWithRank wr : waitingsWithRank) {
+            Waiting w = wr.getWaiting();
+            responses.add(new MyReservationResponse(
+                    w.getId(),
+                    w.getTheme().getName(),
+                    w.getDate(),
+                    w.getTime().getValue(),
+                    wr.getRank() + "번째 예약대기" // 테스트 코드 assertThat(status).isEqualTo("1번째 예약대기") 대응
+            ));
         }
 
         return responses;
     }
+
+
 
     private Theme findTheme(Long id) {
         return themeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("테마 없음"));
