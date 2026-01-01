@@ -1,8 +1,8 @@
 package roomescape.reservation.dto;
 
 import roomescape.reservation.Reservation;
+import roomescape.reservation.waiting.Waiting;
 
-import java.util.List;
 
 public record MyReservationResponse(
         Long reservationId,
@@ -20,4 +20,17 @@ public record MyReservationResponse(
                 "예약"
         );
     }
+
+    public static MyReservationResponse from(Waiting waiting, Long rank) {
+        return new MyReservationResponse(
+                waiting.getId(),
+                waiting.getTheme().getName(),
+                waiting.getDate(),
+                waiting.getTime().getValue(),
+                rank + "번째 대기"
+        );
+
+    }
+
+
 }

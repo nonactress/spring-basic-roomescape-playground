@@ -2,6 +2,7 @@ package roomescape.reservation.waiting;
 
 import jakarta.persistence.*;
 import roomescape.member.Member;
+import roomescape.reservation.dto.MyReservationResponse;
 import roomescape.theme.Theme;
 import roomescape.time.Time;
 
@@ -28,6 +29,10 @@ public class Waiting {
     private String date;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+
+    public Waiting() {
+    }
 
     public Waiting(Member member, Theme theme, Time time, String date) {
         this.member = member;

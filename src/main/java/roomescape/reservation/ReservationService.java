@@ -7,12 +7,14 @@ import roomescape.member.MemberRepository;
 import roomescape.reservation.dto.MyReservationResponse;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.dto.ReservationResponse;
+import roomescape.reservation.waiting.Waiting;
 import roomescape.reservation.waiting.WaitingRepository;
 import roomescape.theme.Theme;
 import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,13 +35,28 @@ public class ReservationService {
         this.waitingRepository = waitingRepository;
     }
 
+    @Transactional
     public ReservationResponse saveByMember(ReservationRequest request, Member member) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
-        Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
-        reservationRepository.save(reservation);
-        return ReservationResponse.from(reservation);
+        if (waitingRepository.existsByMemberAndDateTime(member.getId(), request.getDate(), theme.getId(), time.getId())) {
+            throw new IllegalArgumentException("이미 대기 신청을 한 타임입니다.");
+        }
+
+        List<Reservation> existing = reservationRepository.findByDateAndThemeId(request.getDate(), theme.getId());
+
+        if (existing.isEmpty()) {
+            Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
+            reservationRepository.save(reservation);
+            return ReservationResponse.from(reservation);
+        }
+
+        Waiting waiting = new Waiting(member, theme, time, request.getDate());
+        waitingRepository.save(waiting);
+
+        // 주의: 프론트엔드와 협의하여 대기 시 어떤 응답을 줄지 결정 (여기선 임시로 null이나 예외)
+        return null;
     }
 
     public ReservationResponse saveByAdmin(ReservationRequest request) {
@@ -53,9 +70,20 @@ public class ReservationService {
 
     @Transactional
     public List<MyReservationResponse> findByMember(Member member) {
-        return reservationRepository.findByMemberId(member.getId()).stream()
-                .map(MyReservationResponse::from)
-                .toList();
+        List<MyReservationResponse> responses = new java.util.ArrayList<>(
+                reservationRepository.findByMemberId(member.getId()).stream()
+                        .map(MyReservationResponse::from)
+                        .toList()
+        );
+
+        List<Waiting> waitings = waitingRepository.findByMemberId(member.getId());
+
+        for (Waiting w : waitings) {
+            Long rank = waitingRepository.findRank(w);
+            responses.add(MyReservationResponse.from(w, rank));
+        }
+
+        return responses;
     }
 
     private Theme findTheme(Long id) {
