@@ -35,4 +35,28 @@ public class Waiting {
         this.time = time;
         this.date = date;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
