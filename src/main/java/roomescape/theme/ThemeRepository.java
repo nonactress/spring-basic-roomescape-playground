@@ -23,7 +23,7 @@ public class ThemeRepository {
         return em.createQuery("SELECT t FROM Theme t WHERE t.deleted = false", Theme.class).getResultList();
     }
 
-    public Theme save (Theme theme) {
+    public Theme save(Theme theme) {
         em.persist(theme);
         return theme;
     }

@@ -2,6 +2,7 @@ package roomescape.reservation.waiting;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -36,13 +37,13 @@ public class WaitingRepository {
 
     public Long findRank(Waiting waiting) {
         String jpql = """
-            SELECT COUNT(w) + 1 
-            FROM Waiting w 
-            WHERE w.date = :date 
-              AND w.theme.id = :themeId 
-              AND w.time.id = :timeId 
-              AND w.createdAt < :createdAt
-        """;
+                    SELECT COUNT(w) + 1 
+                    FROM Waiting w 
+                    WHERE w.date = :date 
+                      AND w.theme.id = :themeId 
+                      AND w.time.id = :timeId 
+                      AND w.createdAt < :createdAt
+                """;
 
         return em.createQuery(jpql, Long.class)
                 .setParameter("date", waiting.getDate())
@@ -54,13 +55,13 @@ public class WaitingRepository {
 
     public boolean existsByMemberAndDateTime(Long memberId, String date, Long themeId, Long timeId) {
         String jpql = """
-            SELECT COUNT(w) > 0 
-            FROM Waiting w 
-            WHERE w.member.id = :memberId 
-              AND w.date = :date 
-              AND w.theme.id = :themeId 
-              AND w.time.id = :timeId
-        """;
+                    SELECT COUNT(w) > 0 
+                    FROM Waiting w 
+                    WHERE w.member.id = :memberId 
+                      AND w.date = :date 
+                      AND w.theme.id = :themeId 
+                      AND w.time.id = :timeId
+                """;
         return em.createQuery(jpql, Boolean.class)
                 .setParameter("memberId", memberId)
                 .setParameter("date", date)

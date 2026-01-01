@@ -14,7 +14,7 @@ public class ThemeService {
     private ThemeRepository themeRepository;
 
     @Autowired
-    public ThemeService( ThemeRepository themeRepository) {
+    public ThemeService(ThemeRepository themeRepository) {
         this.themeRepository = themeRepository;
     }
 

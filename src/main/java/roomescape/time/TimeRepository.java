@@ -26,6 +26,7 @@ public class TimeRepository {
         return em.createQuery("SELECT t FROM Time t WHERE t.deleted = false", Time.class)
                 .getResultList();
     }
+
     public Time save(Time time) {
         em.persist(time);
         return time;

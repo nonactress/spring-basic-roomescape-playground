@@ -24,7 +24,8 @@ public class Member {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    protected Member() {}
+    protected Member() {
+    }
 
     public Member(Long id, String name, String email, String role) {
         this.id = id;

@@ -44,7 +44,7 @@ public class MemberController {
         return ResponseEntity.ok()
                 .header("Connection", "keep-alive")
                 .header("Keep-Alive", "timeout=60")
-                .body(new MemberResponse(null,member.getName(),null));
+                .body(new MemberResponse(null, member.getName(), null));
     }
 
     @PostMapping("/members")

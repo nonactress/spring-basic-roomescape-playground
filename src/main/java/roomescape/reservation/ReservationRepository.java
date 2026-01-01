@@ -35,7 +35,7 @@ public class ReservationRepository {
                 reservationName,
                 reservationRequest.getDate(),
                 new Time(reservationRequest.getTime().toString()),
-                new Theme(reservationName,reservationRequest.getTheme().toString())
+                new Theme(reservationName, reservationRequest.getTheme().toString())
         );
         em.persist(reservation);
         return reservation;
@@ -64,11 +64,11 @@ public class ReservationRepository {
     public List<Reservation> findByMemberId(Long memberId) {
 
         String jpql = """
-            SELECT r FROM Reservation r 
-            JOIN FETCH r.time 
-            JOIN FETCH r.theme 
-            WHERE r.member.id = :memberId AND r.deleted = false
-        """;
+                    SELECT r FROM Reservation r 
+                    JOIN FETCH r.time 
+                    JOIN FETCH r.theme 
+                    WHERE r.member.id = :memberId AND r.deleted = false
+                """;
 
         return em.createQuery(jpql, Reservation.class)
                 .setParameter("memberId", memberId)

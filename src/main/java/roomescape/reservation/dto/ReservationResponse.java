@@ -26,6 +26,7 @@ public class ReservationResponse {
                 reservation.getTime().getValue()  // Time 객체에서 시간 값을 가져옴
         );
     }
+
     public Long getId() {
         return id;
     }

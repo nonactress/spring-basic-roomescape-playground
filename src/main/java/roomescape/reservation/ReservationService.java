@@ -24,7 +24,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TimeRepository timeRepository;
     private final ThemeRepository themeRepository;
-    private final WaitingRepository  waitingRepository;
+    private final WaitingRepository waitingRepository;
 
     public ReservationService(ReservationRepository reservationRepository,
                               TimeRepository timeRepository,
@@ -94,7 +94,6 @@ public class ReservationService {
     }
 
 
-
     private Theme findTheme(Long id) {
         return themeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("테마 없음"));
     }
@@ -112,7 +111,7 @@ public class ReservationService {
     public List<ReservationResponse> findAll() {
         return reservationRepository.findAll().stream()
                 .map(it -> new ReservationResponse(it.getId(), it.getName(),
-                                    it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
+                        it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
                 .toList();
     }
 }
