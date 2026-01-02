@@ -16,7 +16,7 @@ public class ThemeDao {
     }
 
     public List<Theme> findAll() {
-        return jdbcTemplate.query("SELECT * FROM theme where deleted = false", (rs, rowNum) -> new Theme(
+        return jdbcTemplate.query("SELECT * FROM theme", (rs, rowNum) -> new Theme(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("description")

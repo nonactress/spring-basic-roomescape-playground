@@ -18,7 +18,7 @@ public class TimeDao {
 
     public List<Time> findAll() {
         return jdbcTemplate.query(
-                "SELECT * FROM time WHERE deleted = false",
+                "SELECT * FROM time",
                 (rs, rowNum) -> new Time(
                         rs.getLong("id"),
                         rs.getString("time_value")));
