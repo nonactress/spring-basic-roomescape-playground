@@ -1,4 +1,4 @@
-package roomescape.advice;
+package roomescape.global.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

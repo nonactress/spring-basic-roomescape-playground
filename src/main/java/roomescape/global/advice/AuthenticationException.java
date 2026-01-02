@@ -1,4 +1,4 @@
-package roomescape.advice;
+package roomescape.global.advice;
 
 public class AuthenticationException extends RuntimeException {
 

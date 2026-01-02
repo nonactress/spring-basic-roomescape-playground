@@ -1,4 +1,4 @@
-package roomescape.member;
+package roomescape.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,11 +1,11 @@
-package roomescape.presentation;
+package roomescape.global.presentation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import roomescape.auth.AuthService;
-import roomescape.token.JwtTokenProvider;
+import roomescape.global.auth.AuthService;
+import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberDao;
 import roomescape.member.util.Role;

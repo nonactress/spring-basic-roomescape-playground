@@ -1,4 +1,4 @@
-package roomescape.presentation;
+package roomescape.global.presentation;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

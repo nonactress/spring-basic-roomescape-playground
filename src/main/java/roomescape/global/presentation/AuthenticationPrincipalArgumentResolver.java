@@ -1,4 +1,4 @@
-package roomescape.presentation;
+package roomescape.global.presentation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import roomescape.auth.AuthMember;
-import roomescape.auth.AuthService;
-import roomescape.token.JwtTokenProvider;
+import roomescape.global.auth.AuthMember;
+import roomescape.global.auth.AuthService;
+import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberService;
 

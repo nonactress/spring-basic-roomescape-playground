@@ -1,11 +1,11 @@
-package roomescape.auth;
+package roomescape.global.auth;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import roomescape.advice.AuthenticationException;
-import roomescape.token.JwtTokenProvider;
+import roomescape.global.advice.AuthenticationException;
+import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberService;
 
