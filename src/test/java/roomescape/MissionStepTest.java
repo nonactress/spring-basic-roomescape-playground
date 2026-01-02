@@ -111,11 +111,4 @@ public class MissionStepTest {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
-
-
-
-
-
-
 }
-
