@@ -1,7 +1,9 @@
-package roomescape.member;
+package roomescape.member.service;
 
 import org.springframework.stereotype.Service;
 import roomescape.global.token.JwtTokenProvider;
+import roomescape.member.entity.Member;
+import roomescape.member.dao.MemberDao;
 import roomescape.member.dto.MemberRequest;
 import roomescape.member.dto.MemberResponse;
 import roomescape.member.util.Role;

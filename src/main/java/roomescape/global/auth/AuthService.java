@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.global.advice.AuthenticationException;
 import roomescape.global.token.JwtTokenProvider;
-import roomescape.member.Member;
-import roomescape.member.MemberDao;
+import roomescape.member.entity.Member;
+import roomescape.member.dao.MemberDao;
 
 @Service
 @Transactional

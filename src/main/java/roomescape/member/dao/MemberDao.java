@@ -1,9 +1,10 @@
-package roomescape.member;
+package roomescape.member.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import roomescape.member.entity.Member;
 import roomescape.member.util.Role;
 
 @Repository

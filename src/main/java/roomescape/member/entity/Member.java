@@ -1,4 +1,4 @@
-package roomescape.member;
+package roomescape.member.entity;
 
 import roomescape.member.util.Role;
 

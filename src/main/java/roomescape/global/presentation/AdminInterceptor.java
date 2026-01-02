@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import roomescape.global.auth.AuthService;
 import roomescape.global.token.JwtTokenProvider;
-import roomescape.member.Member;
-import roomescape.member.MemberDao;
+import roomescape.member.entity.Member;
+import roomescape.member.dao.MemberDao;
 import roomescape.member.util.Role;
 
 @Component

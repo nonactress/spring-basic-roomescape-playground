@@ -9,9 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import roomescape.global.auth.AuthMember;
 import roomescape.global.auth.AuthService;
-import roomescape.global.token.JwtTokenProvider;
-import roomescape.member.Member;
-import roomescape.member.MemberService;
+import roomescape.member.entity.Member;
 
 @Component
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {

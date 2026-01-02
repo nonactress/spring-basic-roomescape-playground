@@ -1,9 +1,4 @@
-package roomescape.time;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package roomescape.time.entity;
 
 public class Time {
     private Long id;

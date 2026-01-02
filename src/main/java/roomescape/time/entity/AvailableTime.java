@@ -1,4 +1,4 @@
-package roomescape.time;
+package roomescape.time.entity;
 
 public class AvailableTime {
     private Long timeId;
