@@ -8,6 +8,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import roomescape.advice.AuthenticationException;
 import roomescape.auth.AuthMember;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
@@ -45,7 +46,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         }
 
         if (!jwtTokenProvider.validateToken(token)) {
-            throw new RuntimeException("인증되지 않은 사용자입니다.");
+            throw new AuthenticationException("인증되지 않은 사용자입니다.");
         }
 
         return memberService.findByToken(token);
