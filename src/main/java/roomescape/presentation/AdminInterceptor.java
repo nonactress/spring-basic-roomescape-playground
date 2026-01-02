@@ -8,6 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberDao;
+import roomescape.member.util.Role;
 
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         String email = jwtTokenProvider.getPayload(token);
         Member member = memberDao.findByEmail(email);
 
-        if (member == null || !"ADMIN".equals(member.getRole())) {
+        if (member == null || !(Role.ADMIN).equals(member.getRole())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }

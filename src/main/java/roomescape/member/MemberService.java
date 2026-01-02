@@ -2,6 +2,7 @@ package roomescape.member;
 
 import org.springframework.stereotype.Service;
 import roomescape.infrastructure.JwtTokenProvider;
+import roomescape.member.util.Role;
 
 @Service
 public class MemberService {
@@ -14,7 +15,7 @@ public class MemberService {
     }
 
     public MemberResponse createMember(MemberRequest memberRequest) {
-        Member member = memberDao.save(new Member(memberRequest.getName(), memberRequest.getEmail(), memberRequest.getPassword(), "USER"));
+        Member member = memberDao.save(new Member(memberRequest.getName(), memberRequest.getEmail(), memberRequest.getPassword(),Role.USER));
         return new MemberResponse(member.getId(), member.getName(), member.getEmail());
     }
 
