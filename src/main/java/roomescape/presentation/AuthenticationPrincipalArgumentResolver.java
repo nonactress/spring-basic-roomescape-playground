@@ -10,6 +10,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import roomescape.advice.AuthenticationException;
 import roomescape.auth.AuthMember;
+import roomescape.auth.AuthService;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberService;
@@ -18,10 +19,12 @@ import roomescape.member.MemberService;
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberService memberService;
+    private final AuthService authService;
 
-    public AuthenticationPrincipalArgumentResolver(JwtTokenProvider jwtTokenProvider, MemberService memberService) {
+    public AuthenticationPrincipalArgumentResolver(JwtTokenProvider jwtTokenProvider, MemberService memberService, AuthService authService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberService = memberService;
+        this.authService = authService;
     }
 
     @Override
@@ -33,22 +36,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-
-        Cookie[] cookies = request.getCookies();
-        String token = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
-                    token = cookie.getValue();
-                }
-            }
-        }
-
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new AuthenticationException("인증되지 않은 사용자입니다.");
-        }
-
-        return memberService.findByToken(token);
+       HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        return authService.extractMember(request);
     }
 }

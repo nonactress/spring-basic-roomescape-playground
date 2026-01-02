@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import roomescape.auth.AuthService;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberDao;
@@ -16,23 +17,17 @@ import java.util.Arrays;
 public class AdminInterceptor implements HandlerInterceptor {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberDao memberDao;
+    private final AuthService authService;
 
-    public AdminInterceptor(JwtTokenProvider jwtTokenProvider, MemberDao memberDao) {
+    public AdminInterceptor(JwtTokenProvider jwtTokenProvider, MemberDao memberDao, AuthService authService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberDao = memberDao;
+        this.authService = authService;
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = extractToken(request);
-
-        if (token == null || !jwtTokenProvider.validateToken(token)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
-
-        String email = jwtTokenProvider.getPayload(token);
-        Member member = memberDao.findByEmail(email);
+        Member member = authService.extractMember(request);
 
         if (member == null || !(Role.ADMIN).equals(member.getRole())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -40,15 +35,5 @@ public class AdminInterceptor implements HandlerInterceptor {
         }
 
         return true;
-    }
-
-    private String extractToken(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) return null;
-        return Arrays.stream(cookies)
-                .filter(c -> "token".equals(c.getName()))
-                .map(Cookie::getValue)
-                .findFirst()
-                .orElse(null);
     }
 }
