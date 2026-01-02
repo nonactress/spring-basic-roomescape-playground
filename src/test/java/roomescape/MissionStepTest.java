@@ -10,7 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import roomescape.reservation.dto.ReservationResponse;
+import roomescape.reservation.ReservationResponse;
 
 import java.util.Date;
 import java.util.HashMap;

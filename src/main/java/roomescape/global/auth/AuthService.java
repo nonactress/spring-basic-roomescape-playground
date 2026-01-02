@@ -7,17 +7,17 @@ import org.springframework.transaction.annotation.Transactional;
 import roomescape.global.advice.AuthenticationException;
 import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.Member;
-import roomescape.member.MemberService;
+import roomescape.member.MemberDao;
 
 @Service
-@Transactional(readOnly = true)
-public class AuthService {
-    private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
+@Transactional
+public class AuthService{
+    private JwtTokenProvider jwtTokenProvider;
+    private MemberDao memberDao;
 
-    public AuthService(JwtTokenProvider jwtTokenProvider, MemberService memberService) {
+    public AuthService(JwtTokenProvider jwtTokenProvider, MemberDao memberDao) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.memberService = memberService;
+        this.memberDao = memberDao;
     }
 
     public Member extractMember(HttpServletRequest request) {
@@ -27,7 +27,8 @@ public class AuthService {
             throw new AuthenticationException("인증되지 않은 사용자입니다.");
         }
 
-        return memberService.findByToken(token);
+        String email = jwtTokenProvider.getPayload(token);
+        return memberDao.findByEmail(email);
     }
 
     private String extractTokenFromCookie(HttpServletRequest request) {
