@@ -1,4 +1,4 @@
-package roomescape.infrastructure;
+package roomescape.token;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
