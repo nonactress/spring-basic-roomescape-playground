@@ -38,3 +38,4 @@ out/
 
 ### Secret Configs (보안 설정 파일) ###
 application-secret.properties
+application.properties
