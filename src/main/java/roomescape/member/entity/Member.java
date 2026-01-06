@@ -1,7 +1,5 @@
 package roomescape.member.entity;
 
-import roomescape.member.util.Role;
-
 public class Member {
     private Long id;
     private String name;
@@ -46,5 +44,7 @@ public class Member {
         return password;
     }
 
-    public Role getRole() {return role;}
+    public Role getRole() {
+        return role;
+    }
 }

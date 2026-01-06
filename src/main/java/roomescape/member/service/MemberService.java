@@ -6,7 +6,7 @@ import roomescape.member.entity.Member;
 import roomescape.member.dao.MemberDao;
 import roomescape.member.dto.MemberRequest;
 import roomescape.member.dto.MemberResponse;
-import roomescape.member.util.Role;
+import roomescape.member.entity.Role;
 
 @Service
 public class MemberService {
@@ -19,7 +19,7 @@ public class MemberService {
     }
 
     public MemberResponse createMember(MemberRequest memberRequest) {
-        Member member = memberDao.save(new Member(memberRequest.getName(), memberRequest.getEmail(), memberRequest.getPassword(),Role.USER));
+        Member member = memberDao.save(new Member(memberRequest.getName(), memberRequest.getEmail(), memberRequest.getPassword(), Role.USER));
         return new MemberResponse(member.getId(), member.getName(), member.getEmail());
     }
 

@@ -8,7 +8,7 @@ import roomescape.global.auth.AuthService;
 import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.entity.Member;
 import roomescape.member.dao.MemberDao;
-import roomescape.member.util.Role;
+import roomescape.member.entity.Role;
 
 @Component
 public class AdminInterceptor implements HandlerInterceptor {

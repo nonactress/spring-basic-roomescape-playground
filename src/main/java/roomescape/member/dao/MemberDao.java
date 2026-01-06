@@ -5,7 +5,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import roomescape.member.entity.Member;
-import roomescape.member.util.Role;
+import roomescape.member.entity.Role;
 
 @Repository
 public class MemberDao {

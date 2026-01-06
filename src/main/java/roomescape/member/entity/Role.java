@@ -1,4 +1,4 @@
-package roomescape.member.util;
+package roomescape.member.entity;
 
 import java.util.Arrays;
 
