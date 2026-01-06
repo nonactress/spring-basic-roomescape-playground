@@ -4,14 +4,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import roomescape.global.advice.AuthenticationException;
+import roomescape.global.exception.AuthenticationException;
 import roomescape.global.token.JwtTokenProvider;
 import roomescape.member.entity.Member;
 import roomescape.member.dao.MemberDao;
 
 @Service
 @Transactional
-public class AuthService{
+public class AuthService {
     private JwtTokenProvider jwtTokenProvider;
     private MemberDao memberDao;
 
