@@ -10,7 +10,7 @@ import java.util.Date;
 public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:this-is-a-sample-secret-key-at-least-32-bytes-long}")
     private String secretKey;
-    @Value("${security.jwt.token.secret-key}")
+    @Value("${security.jwt.token.expire-length}")
     private long validityInMilliseconds;
 
     public String createToken(String payload) {
