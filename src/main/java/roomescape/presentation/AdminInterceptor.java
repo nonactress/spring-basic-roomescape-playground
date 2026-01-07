@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
-import roomescape.member.MemberDao;
+import roomescape.member.MemberRepository;
 
 import java.util.Arrays;
 
 @Component
 public class AdminInterceptor implements HandlerInterceptor {
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberDao memberDao;
+    private final MemberRepository memberRepository;
 
-    public AdminInterceptor(JwtTokenProvider jwtTokenProvider, MemberDao memberDao) {
+    public AdminInterceptor(JwtTokenProvider jwtTokenProvider, MemberRepository memberRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.memberDao = memberDao;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         }
 
         String email = jwtTokenProvider.getPayload(token);
-        Member member = memberDao.findByEmail(email);
+        Member member = memberRepository.findByEmail(email).orElse(null);
 
         if (member == null || !"ADMIN".equals(member.getRole())) {
             response.setStatus(401);
