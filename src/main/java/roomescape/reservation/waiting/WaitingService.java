@@ -34,7 +34,7 @@ public class WaitingService {
         Time time = timeRepository.findById(request.getTime())
                 .orElseThrow(() -> new IllegalArgumentException("시간 없음"));
 
-        if (waitingRepository.existsByMemberAndDateTime(member.getId(), request.getDate(), theme.getId(), time.getId())) {
+        if (waitingRepository.existsByMemberIdAndDateAndThemeIdAndTimeId(member.getId(), request.getDate(), theme.getId(), time.getId())) {
             throw new IllegalArgumentException("이미 해당 시간에 대기/예약이 존재합니다.");
         }
 

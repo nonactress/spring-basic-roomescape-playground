@@ -41,7 +41,7 @@ public class ReservationService {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
-        if (waitingRepository.existsByMemberAndDateTime(member.getId(), request.getDate(), theme.getId(), time.getId())) {
+        if (waitingRepository.existsByMemberIdAndDateAndThemeIdAndTimeId(member.getId(), request.getDate(), theme.getId(), time.getId())) {
             throw new IllegalArgumentException("이미 대기 신청을 한 타임입니다.");
         }
 
@@ -56,7 +56,6 @@ public class ReservationService {
         Waiting waiting = new Waiting(member, theme, time, request.getDate());
         waitingRepository.save(waiting);
 
-        // 주의: 프론트엔드와 협의하여 대기 시 어떤 응답을 줄지 결정 (여기선 임시로 null이나 예외)
         return null;
     }
 
