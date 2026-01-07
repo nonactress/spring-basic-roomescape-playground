@@ -1,12 +1,16 @@
 package roomescape.reservation;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import roomescape.member.Member;
 import roomescape.theme.Theme;
 import roomescape.time.Time;
 
 @Entity
 @Table(name = "Reservation")
+@SQLDelete(sql = "UPDATE reservation SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

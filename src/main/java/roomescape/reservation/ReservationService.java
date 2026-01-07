@@ -67,6 +67,11 @@ public class ReservationService {
         reservationRepository.save(reservation);
         return ReservationResponse.from(reservation);
     }
+    
+    @Transactional
+    public void deleteById(Long id) {
+        reservationRepository.deleteById(id);
+    }
 
     @Transactional
     public List<MyReservationResponse> findByMember(Member member) {
@@ -85,7 +90,7 @@ public class ReservationService {
                     w.getTheme().getName(),
                     w.getDate(),
                     w.getTime().getValue(),
-                    wr.getRank() + "번째 예약대기" // 테스트 코드 assertThat(status).isEqualTo("1번째 예약대기") 대응
+                    wr.getRank() + "번째 예약대기"
             ));
         }
 
@@ -99,12 +104,6 @@ public class ReservationService {
 
     private Time findTime(Long id) {
         return timeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("시간 없음"));
-    }
-
-
-    @Transactional
-    public void deleteById(Long id) {
-        reservationRepository.deleteById(id);
     }
 
     public List<ReservationResponse> findAll() {
