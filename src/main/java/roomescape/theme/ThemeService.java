@@ -1,19 +1,15 @@
 package roomescape.theme;
 
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import roomescape.time.TimeRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class ThemeService {
 
-    private ThemeRepository themeRepository;
+    private final ThemeRepository themeRepository;
 
-    @Autowired
     public ThemeService(ThemeRepository themeRepository) {
         this.themeRepository = themeRepository;
     }
