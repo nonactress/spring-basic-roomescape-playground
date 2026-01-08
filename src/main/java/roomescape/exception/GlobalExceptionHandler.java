@@ -1,4 +1,4 @@
-package roomescape.advice;
+package roomescape.exception;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;

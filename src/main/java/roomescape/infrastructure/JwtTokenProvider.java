@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${security.jwt.token.secret-key:this-is-a-sample-secret-key-at-least-32-bytes-long}")
+    @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     @Value("${security.jwt.token.expire-length:3600000}")
     private long validityInMilliseconds;
