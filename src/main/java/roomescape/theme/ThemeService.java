@@ -19,6 +19,7 @@ public class ThemeService {
         return themeRepository.save(theme);
     }
 
+    @Transactional
     public List<Theme> findAll() {
         return themeRepository.findAll();
     }
