@@ -19,6 +19,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ThemeRepository themeRepository;
     private final TimeRepository timeRepository;
     private final ReservationRepository reservationRepository;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataInitializer.class);
 
     public DataInitializer(
             MemberRepository memberRepository,
@@ -39,7 +40,7 @@ public class DataInitializer implements CommandLineRunner {
         if (memberRepository.findByEmail("admin").isEmpty()) {
             Member admin = new Member("admin", "admin", "admin", "ADMIN");
             memberRepository.save(admin);
-            System.out.println("관리자 계정이 생성되었습니다.");
+            log.info("관리자 계정이 생성되었습니다.");
         }
 
         // 2. 테마 데이터 생성
@@ -51,7 +52,7 @@ public class DataInitializer implements CommandLineRunner {
             themeRepository.save(theme1);
             themeRepository.save(theme2);
             themeRepository.save(theme3);
-            System.out.println("테마 데이터가 생성되었습니다.");
+            log.info("테마 데이터가 생성되었습니다.");
         }
 
         // 3. 시간 데이터 생성
@@ -69,7 +70,7 @@ public class DataInitializer implements CommandLineRunner {
             timeRepository.save(time4);
             timeRepository.save(time5);
             timeRepository.save(time6);
-            System.out.println("시간 데이터가 생성되었습니다.");
+            log.info("시간 데이터가 생성되었습니다.");
         }
 
         if (reservationRepository.count() == 0) {
@@ -95,9 +96,9 @@ public class DataInitializer implements CommandLineRunner {
             Reservation reservation4 = new Reservation("브라운", "2024-03-01", time1, theme2);
 
             reservationRepository.save(reservation4);
-            System.out.println("예약 데이터가 생성되었습니다.");
+            log.info("예약 데이터가 생성되었습니다.");
         }
 
-        System.out.println("초기 데이터 로딩이 완료되었습니다.");
+        log.info("초기 데이터 로딩이 완료되었습니다.");
     }
 }
