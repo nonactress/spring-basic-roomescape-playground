@@ -61,11 +61,7 @@ public class Member {
         return role;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void delete() {
+        this.deleted = true;
     }
 }
