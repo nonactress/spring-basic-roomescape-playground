@@ -21,9 +21,9 @@ public class ReservationResponse {
         return new ReservationResponse(
                 reservation.getId(),
                 reservation.getName(),
-                reservation.getTheme().getName(), // Theme 객체에서 이름을 가져옴
+                reservation.getTheme().getName(),
                 reservation.getDate(),
-                reservation.getTime().getValue()  // Time 객체에서 시간 값을 가져옴
+                reservation.getTime().getValue()
         );
     }
 
