@@ -39,7 +39,9 @@ public class DataInitializer implements CommandLineRunner {
         // 1. 관리자 계정 생성
         if (memberRepository.findByEmail("admin").isEmpty()) {
             Member admin = new Member("admin", "admin", "admin", "ADMIN");
+            Member user = new Member("user", "user", "user", "USER");
             memberRepository.save(admin);
+            memberRepository.save(user);
             log.info("관리자 계정이 생성되었습니다.");
         }
 

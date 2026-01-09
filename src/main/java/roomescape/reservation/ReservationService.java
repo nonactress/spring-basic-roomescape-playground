@@ -80,15 +80,9 @@ public class ReservationService {
 
         for (WaitingWithRank wr : waitingsWithRank) {
             Waiting w = wr.getWaiting();
-            responses.add(new MyReservationResponse(
-                    w.getId(),
-                    w.getTheme().getName(),
-                    w.getDate(),
-                    w.getTime().getValue(),
-                    wr.getRank() + "번째 예약대기"
+            responses.add(MyReservationResponse.from(w, wr.getRank()
             ));
         }
-
         return responses;
     }
 
@@ -110,8 +104,7 @@ public class ReservationService {
     public List<ReservationResponse> findAll() {
         return reservationRepository.findAll()
                 .stream()
-                .map(it -> new ReservationResponse(it.getId(), it.getName(),
-                        it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
+                .map(it -> ReservationResponse.from(it))
                 .toList();
     }
 }
