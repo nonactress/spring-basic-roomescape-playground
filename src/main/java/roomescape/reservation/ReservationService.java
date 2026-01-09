@@ -1,7 +1,7 @@
 package roomescape.reservation;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
 import roomescape.reservation.dto.MyReservationResponse;
@@ -15,11 +15,10 @@ import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true) // 1. 기본을 '읽기 전용'으로 설정
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TimeRepository timeRepository;
@@ -60,6 +59,7 @@ public class ReservationService {
         return null;
     }
 
+    @Transactional
     public ReservationResponse saveByAdmin(ReservationRequest request) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
@@ -69,7 +69,6 @@ public class ReservationService {
         return ReservationResponse.from(reservation);
     }
 
-    @Transactional
     public List<MyReservationResponse> findByMember(Member member) {
         List<MyReservationResponse> responses = new java.util.ArrayList<>(
                 reservationRepository.findByMemberId(member.getId()).stream()
@@ -86,7 +85,7 @@ public class ReservationService {
                     w.getTheme().getName(),
                     w.getDate(),
                     w.getTime().getValue(),
-                    wr.getRank() + "번째 예약대기" // 테스트 코드 assertThat(status).isEqualTo("1번째 예약대기") 대응
+                    wr.getRank() + "번째 예약대기"
             ));
         }
 
@@ -109,7 +108,8 @@ public class ReservationService {
     }
 
     public List<ReservationResponse> findAll() {
-        return reservationRepository.findAll().stream()
+        return reservationRepository.findAll()
+                .stream()
                 .map(it -> new ReservationResponse(it.getId(), it.getName(),
                         it.getTheme().getName(), it.getDate(), it.getTime().getValue()))
                 .toList();
