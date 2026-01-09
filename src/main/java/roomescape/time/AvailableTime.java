@@ -1,7 +1,5 @@
 package roomescape.time;
 
-import jakarta.persistence.Entity;
-
 public class AvailableTime {
     private Long timeId;
     private String time;
