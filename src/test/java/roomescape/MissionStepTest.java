@@ -8,6 +8,7 @@ import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @DataJpaTest
 public class MissionStepTest {
 
@@ -27,7 +28,7 @@ public class MissionStepTest {
 
         Time persistTime = entityManager.find(Time.class, time.getId());
 
-        assertThat(persistTime).isNotNull(); // null 체크 추가
+        assertThat(persistTime).isNotNull();
         assertThat(persistTime.getValue()).isEqualTo(time.getValue());
     }
 }
