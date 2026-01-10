@@ -34,7 +34,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         Member member = memberRepository.findByEmail(email).orElse(null);
 
         if (member == null || !"ADMIN".equals(member.getRole())) {
-            response.setStatus(401);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 

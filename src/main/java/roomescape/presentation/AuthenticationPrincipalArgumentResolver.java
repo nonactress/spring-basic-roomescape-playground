@@ -9,18 +9,18 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import roomescape.auth.AuthMember;
+import roomescape.auth.AuthService;
 import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberService;
 
 @Component
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
-    private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
+    private final AuthService authService;
 
-    public AuthenticationPrincipalArgumentResolver(JwtTokenProvider jwtTokenProvider, MemberService memberService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.memberService = memberService;
+    public AuthenticationPrincipalArgumentResolver(AuthService authService) {
+
+        this.authService = authService;
     }
 
     @Override
@@ -34,20 +34,8 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
-        Cookie[] cookies = request.getCookies();
-        String token = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
-                    token = cookie.getValue();
-                }
-            }
-        }
+        Member member = authService.extractMember(request);
 
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new RuntimeException("인증되지 않은 사용자입니다.");
-        }
-
-        return memberService.findByToken(token);
+        return member;
     }
 }
