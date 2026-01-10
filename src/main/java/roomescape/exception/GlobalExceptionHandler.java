@@ -1,6 +1,7 @@
 package roomescape.exception;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
