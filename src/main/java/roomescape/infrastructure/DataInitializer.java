@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
+import roomescape.reservation.Reservation;
+import roomescape.reservation.ReservationRepository;
 import roomescape.theme.Theme;
 import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
-import roomescape.reservation.Reservation;
-import roomescape.reservation.ReservationRepository;
 
 @Component
 public class DataInitializer implements CommandLineRunner {

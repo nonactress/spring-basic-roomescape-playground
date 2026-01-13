@@ -1,6 +1,5 @@
 package roomescape.presentation;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -10,9 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import roomescape.auth.AuthMember;
 import roomescape.auth.AuthService;
-import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
-import roomescape.member.MemberService;
 
 @Component
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {

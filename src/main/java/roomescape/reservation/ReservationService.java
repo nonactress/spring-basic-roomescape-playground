@@ -3,7 +3,6 @@ package roomescape.reservation;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import roomescape.member.Member;
-import roomescape.member.MemberRepository;
 import roomescape.reservation.dto.MyReservationResponse;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.dto.ReservationResponse;
@@ -15,7 +14,6 @@ import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,7 +65,7 @@ public class ReservationService {
         reservationRepository.save(reservation);
         return ReservationResponse.from(reservation);
     }
-    
+
     @Transactional
     public void deleteById(Long id) {
         reservationRepository.deleteById(id);

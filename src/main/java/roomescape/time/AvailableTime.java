@@ -1,7 +1,5 @@
 package roomescape.time;
 
-import jakarta.persistence.Entity;
-
 public class AvailableTime {
     private Long timeId;
     private String time;
@@ -13,15 +11,7 @@ public class AvailableTime {
         this.booked = booked;
     }
 
-    public Long getTimeId() {
-        return timeId;
-    }
-
     public String getTime() {
         return time;
-    }
-
-    public boolean isBooked() {
-        return booked;
     }
 }
