@@ -45,6 +45,6 @@ public class TimeService {
     public void deleteById(Long id) {
         Time time = timeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시간 ID입니다."));
-        time.setDeleted(true);
+        time.delete();
     }
 }

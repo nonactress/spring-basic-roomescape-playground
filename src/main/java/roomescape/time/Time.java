@@ -42,7 +42,7 @@ public class Time {
         return value;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void delete() {
+        this.deleted = true;
     }
 }

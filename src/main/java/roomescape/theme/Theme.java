@@ -40,7 +40,7 @@ public class Theme {
         return description;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public void delete() {
+        this.deleted = true;
     }
 }
