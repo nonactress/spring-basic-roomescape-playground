@@ -14,7 +14,7 @@ public class Theme {
     private String name;
     private String description;
 
-    private boolean deleted = false ;
+    private boolean deleted = false;
 
     public Theme() {
     }

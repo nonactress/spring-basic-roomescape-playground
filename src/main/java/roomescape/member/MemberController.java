@@ -46,7 +46,7 @@ public class MemberController {
         if (member == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        
+
         return ResponseEntity.ok()
                 .header("Connection", "keep-alive")
                 .header("Keep-Alive", "timeout=60")

@@ -1,7 +1,7 @@
 package roomescape.reservation.waiting;
 
-import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import roomescape.member.Member;
 import roomescape.reservation.ReservationRepository;
 import roomescape.reservation.dto.ReservationRequest;
