@@ -1,6 +1,5 @@
 package roomescape.advice;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +13,8 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(RuntimeException e) {
         return ResponseEntity.status(404)
                 .body(new ErrorResponse(e.getMessage()));

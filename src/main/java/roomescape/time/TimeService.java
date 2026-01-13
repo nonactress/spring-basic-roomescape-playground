@@ -2,6 +2,7 @@ package roomescape.time;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import roomescape.advice.NotFoundException;
 import roomescape.reservation.Reservation;
 import roomescape.reservation.ReservationRepository;
 
@@ -44,7 +45,7 @@ public class TimeService {
     @Transactional
     public void deleteById(Long id) {
         Time time = timeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시간 ID입니다."));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 시간 ID입니다."));
         time.setDeleted(true);
     }
 }
