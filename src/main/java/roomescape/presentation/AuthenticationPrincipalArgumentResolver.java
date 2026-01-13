@@ -45,7 +45,8 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         }
 
         if (!jwtTokenProvider.validateToken(token)) {
-            throw new RuntimeException("인증되지 않은 사용자입니다.");
+            return null;
+            //throw new RuntimeException("인증되지 않은 사용자입니다.");
         }
 
         return memberService.findByToken(token);
