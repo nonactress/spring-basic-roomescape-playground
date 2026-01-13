@@ -36,7 +36,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public ReservationResponse saveByMember(ReservationRequest request, Member member) {
+    public Long saveByMember(ReservationRequest request, Member member) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
@@ -49,24 +49,22 @@ public class ReservationService {
         if (existing.isEmpty()) {
             Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
             reservationRepository.save(reservation);
-            return ReservationResponse.from(reservation);
+            return reservation.getId();
         }
 
         Waiting waiting = new Waiting(member, theme, time, request.getDate());
         waitingRepository.save(waiting);
-
-        // 주의: 프론트엔드와 협의하여 대기 시 어떤 응답을 줄지 결정 (여기선 임시로 null이나 예외)
-        return null;
+        return waiting.getId();
     }
 
     @Transactional
-    public ReservationResponse saveByAdmin(ReservationRequest request) {
+    public Long saveByAdmin(ReservationRequest request) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
         Reservation reservation = new Reservation(request.getName(), request.getDate(), time, theme);
         reservationRepository.save(reservation);
-        return ReservationResponse.from(reservation);
+        return reservation.getId();
     }
 
     public List<MyReservationResponse> findByMember(Member member) {

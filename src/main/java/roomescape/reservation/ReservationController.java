@@ -32,13 +32,13 @@ public class ReservationController {
 
     @PostMapping("/reservations")
     public ResponseEntity<ReservationResponse> create(@AuthMember Member member, @RequestBody ReservationRequest request) {
-        ReservationResponse response;
+        Long id;
         if (member != null) {
-            response = reservationService.saveByMember(request, member);
+            id = reservationService.saveByMember(request, member);
         } else {
-            response = reservationService.saveByAdmin(request);
+            id = reservationService.saveByAdmin(request);
         }
-        return ResponseEntity.created(URI.create("/reservations/" + response.getId())).body(response);
+        return ResponseEntity.created(URI.create("/reservations/" + id)).build();
     }
 
     @DeleteMapping("/reservations/{id}")
