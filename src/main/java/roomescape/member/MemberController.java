@@ -23,7 +23,8 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(
             @RequestBody MemberRequest memberRequest,
-            HttpServletResponse response) {
+            HttpServletResponse response
+    ) {
 
         String tokenValue = memberService.login(memberRequest);
 
