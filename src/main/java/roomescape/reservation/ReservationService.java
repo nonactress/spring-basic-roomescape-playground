@@ -18,7 +18,7 @@ import roomescape.time.TimeRepository;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true) // 1. 기본을 '읽기 전용'으로 설정
+@Transactional(readOnly = true)
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TimeRepository timeRepository;
