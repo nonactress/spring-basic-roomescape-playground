@@ -1,4 +1,4 @@
-package roomescape.infrastructure;
+package roomescape.Loader;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,14 @@ import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
 @Component
-public class DataInitializer implements CommandLineRunner {
+public class ProductionDataLoader implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
     private final ThemeRepository themeRepository;
     private final TimeRepository timeRepository;
     private final ReservationRepository reservationRepository;
 
-    public DataInitializer(
+    public ProductionDataLoader(
             MemberRepository memberRepository,
             ThemeRepository themeRepository,
             TimeRepository timeRepository,
