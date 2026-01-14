@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
@@ -14,17 +15,14 @@ public class ThemeService {
         this.themeRepository = themeRepository;
     }
 
-    @Transactional
     public Theme save(Theme theme) {
         return themeRepository.save(theme);
     }
 
-    @Transactional
     public List<Theme> findAll() {
         return themeRepository.findAll();
     }
 
-    @Transactional
     public void deleteById(Long id) {
         themeRepository.deleteById(id);
     }
