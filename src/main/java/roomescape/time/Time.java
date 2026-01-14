@@ -41,8 +41,4 @@ public class Time {
     public String getValue() {
         return value;
     }
-
-    public void delete() {
-        this.deleted = true;
-    }
 }
