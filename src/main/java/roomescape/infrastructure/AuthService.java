@@ -1,5 +1,6 @@
-package auth;
+package roomescape.infrastructure;
 
+import auth.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
