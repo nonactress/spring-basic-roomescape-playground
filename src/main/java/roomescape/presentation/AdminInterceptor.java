@@ -1,11 +1,11 @@
 package roomescape.presentation;
 
+import auth.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import roomescape.infrastructure.JwtTokenProvider;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
 
