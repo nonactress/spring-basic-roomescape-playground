@@ -86,12 +86,4 @@ public class Reservation {
     public Member getMember() {
         return member;
     }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 }

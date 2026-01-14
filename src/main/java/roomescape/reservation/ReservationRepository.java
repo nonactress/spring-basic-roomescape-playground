@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Query("SELECT r FROM Reservation r JOIN FETCH r.time JOIN FETCH r.theme")
-    List<Reservation> findAllWithFetchJoin();
-
     List<Reservation> findByDateAndThemeId(String date, Long themeId);
 
     @Query("SELECT r FROM Reservation r JOIN FETCH r.time JOIN FETCH r.theme WHERE r.member.id = :memberId")

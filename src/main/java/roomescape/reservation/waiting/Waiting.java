@@ -65,8 +65,4 @@ public class Waiting {
     public String getDate() {
         return date;
     }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 }

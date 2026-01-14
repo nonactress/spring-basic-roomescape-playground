@@ -3,12 +3,15 @@ package roomescape.reservation.waiting;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import roomescape.member.Member;
+import roomescape.reservation.Reservation;
 import roomescape.reservation.ReservationRepository;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.theme.Theme;
 import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,7 +41,7 @@ public class WaitingService {
             throw new IllegalArgumentException("이미 해당 시간에 대기/예약이 존재합니다.");
         }
 
-        var existing = reservationRepository.findByDateAndThemeId(request.getDate(), theme.getId());
+        List<Reservation> existing = reservationRepository.findByDateAndThemeId(request.getDate(), theme.getId());
         boolean hasReservationAtTime = existing.stream()
                 .anyMatch(r -> r.getTime().getId().equals(time.getId()));
 
