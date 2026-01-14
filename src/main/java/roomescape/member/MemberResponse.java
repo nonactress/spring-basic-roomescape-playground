@@ -21,8 +21,4 @@ public class MemberResponse {
     public String getName() {
         return name;
     }
-
-    public String getEmail() {
-        return email;
-    }
 }

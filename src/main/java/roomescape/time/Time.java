@@ -31,7 +31,6 @@ public class Time {
     }
 
     public Time() {
-
     }
 
     public Long getId() {

@@ -54,10 +54,4 @@ public class WaitingService {
 
         return WaitingResponse.from(waiting);
     }
-
-    public void deleteById(Long id) {
-        Waiting waiting = waitingRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대기입니다."));
-        waitingRepository.delete(waiting);
-    }
 }

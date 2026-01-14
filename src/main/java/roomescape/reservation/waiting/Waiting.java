@@ -11,8 +11,6 @@ import roomescape.member.Member;
 import roomescape.theme.Theme;
 import roomescape.time.Time;
 
-import java.time.LocalDateTime;
-
 @Entity
 public class Waiting {
     @Id
@@ -32,9 +30,6 @@ public class Waiting {
     private Time time;
 
     private String date;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
 
     public Waiting() {
     }
