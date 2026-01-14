@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
-import roomescape.reservation.Reservation;
 import roomescape.reservation.ReservationRepository;
 import roomescape.theme.Theme;
 import roomescape.theme.ThemeRepository;
@@ -71,33 +70,5 @@ public class ProductionDataLoader implements CommandLineRunner {
             timeRepository.save(time6);
             System.out.println("시간 데이터가 생성되었습니다.");
         }
-
-        if (reservationRepository.count() == 0) {
-            Member admin = memberRepository.findByEmail("admin")
-                    .orElseThrow(() -> new RuntimeException("Admin not found"));
-
-            Time time1 = timeRepository.findById(1L).orElseThrow();
-            Time time2 = timeRepository.findById(2L).orElseThrow();
-            Time time3 = timeRepository.findById(3L).orElseThrow();
-
-            Theme theme1 = themeRepository.findById(1L).orElseThrow();
-            Theme theme2 = themeRepository.findById(2L).orElseThrow();
-            Theme theme3 = themeRepository.findById(3L).orElseThrow();
-
-            Reservation reservation1 = new Reservation("", "2024-03-01", time1, theme1, admin);
-            Reservation reservation2 = new Reservation("", "2024-03-01", time2, theme2, admin);
-            Reservation reservation3 = new Reservation("", "2024-03-01", time3, theme3, admin);
-
-            reservationRepository.save(reservation1);
-            reservationRepository.save(reservation2);
-            reservationRepository.save(reservation3);
-
-            Reservation reservation4 = new Reservation("브라운", "2024-03-01", time1, theme2);
-
-            reservationRepository.save(reservation4);
-            System.out.println("예약 데이터가 생성되었습니다.");
-        }
-
-        System.out.println("초기 데이터 로딩이 완료되었습니다.");
     }
 }
