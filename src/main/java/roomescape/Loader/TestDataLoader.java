@@ -13,7 +13,7 @@ import roomescape.theme.ThemeRepository;
 import roomescape.time.Time;
 import roomescape.time.TimeRepository;
 
-@Profile("Test")
+@Profile("test")
 @Component
 public class TestDataLoader implements CommandLineRunner {
 
