@@ -18,5 +18,4 @@ public record MyReservationResponse(
                 "예약"
         );
     }
-    }
 }
