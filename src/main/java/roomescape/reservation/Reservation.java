@@ -61,6 +61,7 @@ public class Reservation {
         this.date = date;
         this.time = time;
         this.theme = theme;
+        this.member = null;
     }
 
     public Long getId() {

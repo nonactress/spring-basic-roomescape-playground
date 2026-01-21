@@ -39,23 +39,13 @@ public class ReservationService {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
-        if (waitingRepository.existsByMemberIdAndDateAndThemeIdAndTimeId(member.getId(), request.getDate(), theme.getId(), time.getId())) {
-            throw new IllegalArgumentException("이미 대기 신청을 한 타임입니다.");
+        validateNotAlreadyWaiting(member.getId(), request.getDate(), theme.getId(), time.getId());
+
+        if (isReservationAvailable(request.getDate(), theme.getId(), time.getId())) {
+            return createReservation(member.getName(), request.getDate(), time, theme, member);
         }
 
-        List<Reservation> existing = reservationRepository.findByDateAndThemeIdAndTimeId(
-                request.getDate(), theme.getId(), time.getId());
-
-        if (existing.isEmpty()) {
-            Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
-            reservationRepository.save(reservation);
-            return reservation.getId();
-        }
-
-        Waiting waiting = new Waiting(member, theme, time, request.getDate());
-        waitingRepository.save(waiting);
-
-        return waiting.getId();
+        return createWaiting(member, theme, time, request.getDate());
     }
 
     @Transactional
@@ -63,9 +53,30 @@ public class ReservationService {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
-        Reservation reservation = new Reservation(request.getName(), request.getDate(), time, theme);
+        return createReservation(request.getName(), request.getDate(), time, theme, null);
+    }
+    
+    private void validateNotAlreadyWaiting(Long memberId, String date, Long themeId, Long timeId) {
+        if (waitingRepository.existsByMemberIdAndDateAndThemeIdAndTimeId(memberId, date, themeId, timeId)) {
+            throw new IllegalArgumentException("이미 대기 신청을 한 타임입니다.");
+        }
+    }
+
+    private boolean isReservationAvailable(String date, Long themeId, Long timeId) {
+        List<Reservation> existing = reservationRepository.findByDateAndThemeIdAndTimeId(date, themeId, timeId);
+        return existing.isEmpty();
+    }
+
+    private Long createReservation(String name, String date, Time time, Theme theme, Member member) {
+        Reservation reservation = new Reservation(name, date, time, theme, member);
         reservationRepository.save(reservation);
         return reservation.getId();
+    }
+
+    private Long createWaiting(Member member, Theme theme, Time time, String date) {
+        Waiting waiting = new Waiting(member, theme, time, date);
+        waitingRepository.save(waiting);
+        return waiting.getId();
     }
 
     @Transactional
