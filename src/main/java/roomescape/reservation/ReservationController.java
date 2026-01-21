@@ -33,7 +33,7 @@ public class ReservationController {
     @PostMapping("/reservations")
     public ResponseEntity<ReservationResponse> create(@AuthMember Member member, @RequestBody ReservationRequest request) {
         Long id;
-        if (member != null) {
+        if (member.getRole().equals("USER")) {
             id = reservationService.saveByMember(request, member);
         } else {
             id = reservationService.saveByAdmin(request);
