@@ -1,7 +1,7 @@
 package roomescape.reservation;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import roomescape.member.Member;
 import roomescape.reservation.dto.MyReservationResponse;
 import roomescape.reservation.dto.ReservationRequest;
@@ -17,7 +17,7 @@ import roomescape.time.TimeRepository;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TimeRepository timeRepository;
@@ -35,7 +35,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public ReservationResponse saveByMember(ReservationRequest request, Member member) {
+    public Long saveByMember(ReservationRequest request, Member member) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
@@ -43,27 +43,29 @@ public class ReservationService {
             throw new IllegalArgumentException("이미 대기 신청을 한 타임입니다.");
         }
 
-        List<Reservation> existing = reservationRepository.findByDateAndThemeId(request.getDate(), theme.getId());
+        List<Reservation> existing = reservationRepository.findByDateAndThemeIdAndTimeId(
+                request.getDate(), theme.getId(), time.getId());
 
         if (existing.isEmpty()) {
             Reservation reservation = new Reservation(member.getName(), request.getDate(), time, theme, member);
             reservationRepository.save(reservation);
-            return ReservationResponse.from(reservation);
+            return reservation.getId();
         }
 
         Waiting waiting = new Waiting(member, theme, time, request.getDate());
         waitingRepository.save(waiting);
 
-        return null;
+        return waiting.getId();
     }
 
-    public ReservationResponse saveByAdmin(ReservationRequest request) {
+    @Transactional
+    public Long saveByAdmin(ReservationRequest request) {
         Theme theme = findTheme(request.getTheme());
         Time time = findTime(request.getTime());
 
         Reservation reservation = new Reservation(request.getName(), request.getDate(), time, theme);
         reservationRepository.save(reservation);
-        return ReservationResponse.from(reservation);
+        return reservation.getId();
     }
 
     @Transactional
@@ -71,7 +73,6 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    @Transactional
     public List<MyReservationResponse> findByMember(Member member) {
         List<MyReservationResponse> responses = new java.util.ArrayList<>(
                 reservationRepository.findByMemberId(member.getId()).stream()
