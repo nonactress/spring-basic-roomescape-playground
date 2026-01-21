@@ -22,4 +22,6 @@ public interface WaitingRepository extends JpaRepository<Waiting, Long> {
                 WHERE w.member.id = :memberId
             """)
     List<WaitingWithRank> findWaitingsWithRankByMemberId(@Param("memberId") Long memberId);
+
+    boolean existsByTimeId(Long id);
 }
