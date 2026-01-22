@@ -1,5 +1,6 @@
 package roomescape.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,4 +26,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body(new ErrorResponse("오류가 발생했습니다."));
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("토큰 만료 시간 초과"));
+    }
 }
+
