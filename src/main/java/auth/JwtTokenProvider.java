@@ -1,7 +1,6 @@
 package auth;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,11 +36,13 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser()
+            Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
+            return true;
+
         } catch (JwtException | IllegalArgumentException e) {
+
             return false;
         }
     }
