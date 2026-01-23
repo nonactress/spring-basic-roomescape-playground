@@ -22,7 +22,7 @@ public class MemberService {
                         memberRequest.getName(),
                         memberRequest.getEmail(),
                         memberRequest.getPassword(),
-                        "USER"
+                        Role.USER
                 )
         );
         return new MemberResponse(member.getId(), member.getName(), member.getEmail());

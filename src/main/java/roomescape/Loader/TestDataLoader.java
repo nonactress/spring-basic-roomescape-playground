@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.member.Member;
 import roomescape.member.MemberRepository;
+import roomescape.member.Role;
 import roomescape.reservation.Reservation;
 import roomescape.reservation.ReservationRepository;
 import roomescape.theme.Theme;
@@ -39,7 +40,7 @@ public class TestDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // 1. 관리자 계정 생성
         if (memberRepository.findByEmail("admin").isEmpty()) {
-            Member admin = new Member("admin", "admin", "admin", "ADMIN");
+            Member admin = new Member("admin", "admin", "admin", Role.ADMIN);
             memberRepository.save(admin);
             System.out.println("관리자 계정이 생성되었습니다.");
         }
