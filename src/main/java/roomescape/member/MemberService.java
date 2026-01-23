@@ -29,10 +29,6 @@ public class MemberService {
     }
 
     public Member findByToken(String token) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new RuntimeException("유효하지 않은 토큰입니다.");
-        }
-
         String email = jwtTokenProvider.getPayload(token);
 
         return memberRepository.findByEmail(email)
